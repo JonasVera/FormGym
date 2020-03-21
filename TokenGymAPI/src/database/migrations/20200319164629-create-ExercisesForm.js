@@ -14,7 +14,7 @@ module.exports = {
         allowNull:false,
         references:{model:'Exercises', key:'id'},
         onUpdate:'CASCADE',
-       
+        onDelete:'CASCADE',
         
       },
       repetition:{ // REPETICAO

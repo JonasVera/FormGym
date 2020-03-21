@@ -14,7 +14,7 @@ module.exports = {
         allowNull:false,
         references:{model:'ExerciseForms', key:'id'},
         onUpdate:'CASCADE',
-        
+        onDelete:'CASCADE',
       },
       day:{ // REPETICAO
         type:Sequelize.STRING,

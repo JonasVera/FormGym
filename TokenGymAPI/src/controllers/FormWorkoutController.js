@@ -1,31 +1,31 @@
 const FormWorkout = require('../models/FormWorkout');
 const ExerciseForm = require('../models/ExersiseForm');
-const Exercise = require('../models/Exercise');
+ 
 module.exports = {
     // LIST ALL GROUPS OF MUSCLES
    
     // ADD A NEW  GROUP OF MUSCLE
     async index(req,res){
-        const exercise = await Exercise.findAll({
+        const exerciseForm = await ExerciseForm.findAll({
            
-           // attributes:['repetition','time','obs','status_form'],
+            attributes:['repetition','time','obs','status_form'],
             include: 
              [
+                {association:'allexercisesForm',
+                 attributes:['day','obs','status_item'],
                 
-                {association:'exercises'},
-              //  {association:'allexercisesForm',
-                // attributes:['day','obs','status_item'],
+            },
+                {association:'allexercises',
+                attributes:['name'],
                 
-           // },
-            //    {association:'allexercises',
-            //    attributes:['name'],
-                
-           // },
-          
+            }
+            
+                 
              ]
        });
+        console.log("Exercicio: "+exerciseForm);
         
-             return res.json(exercise);    
+        return res.json(exerciseForm);    
     },
     async store(req,res){
       

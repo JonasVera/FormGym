@@ -3,36 +3,19 @@ const ExerciseForm = require('../models/ExersiseForm');
 
 module.exports = {
    
-    async pesquisa(req,res){
-        // RETORNA TODOS OS EXERCICIO E GRUPO ITENS DA FICHA 
+    async index(req,res){
+       
       const exercise = await Exercise.findAll({
+          attributes:['id','name','category'],
           include:[
-              {association: 'MuscleGroups'}, // GRUPO
-              {association: 'exerciseForms'}, // EXERCICIO
+              {association: 'MuscleGroups',attributes:['id','name','category']},
+              {association: 'exerciseForms',attributes:['id','repetition','time','obs','status_form']}// EXERCICIO
                // formExercicio
           ]
       });
             return res.json(exercise);
      },
-
-    async all(req,res){
-        // RETORNA TODOS OS EXERCICIO E ITENS DA FICHA 
-      const exercise = await Exercise.findAll({
-           include:{association:'exercises'},
-           include:{association:'exerciseForms'}
-      });
-            return res.json(exercise);
-     },
-        // ALL 
-    async index(req,res){
-        const exercise = await Exercise.findAll({
-            include:{association:'exercises'},
-            include:{association:'exerciseForms'}
-           
-       });
-             return res.json(exercise);
-    },
-
+ 
     // ADD A NEW EXERCISE FORM / adiciona um novo exercicio ao item de ficha 
     async store(req,res){
         const  {id_exercise} = req.params;
@@ -43,7 +26,7 @@ module.exports = {
         
         // verifica a inexistencia de um exercicio antes de inserir no item de ficha
         if(!exercise) 
-           return res.status(400).json({error:'Exercicio não existe'});
+           return res.status(400).json({error:'Exercicio já existe'});
          
            // CRIA O ITEM DA FICHA
         const exerciseForm = await ExerciseForm.create({
@@ -55,13 +38,36 @@ module.exports = {
         // RETORNA O ITEM CADASTRADO
        return res.json(exerciseForm);
  
-    }, async delete (req,res){
+    }, 
+    async update(req,res){
+        const  {id} = req.params;
+      
+        const {repetition,time,obs,status_form} = req.body;
+        
+        let exerciseForm = await ExerciseForm.findByPk(id);
+        
+        // verifica a inexistencia de um exercicio antes de inserir no item de ficha
+        if(!exerciseForm) 
+           return res.status(400).json({error:'Item inexistente'});
+         
+           // CRIA O ITEM DA FICHA
+          exerciseForm = await ExerciseForm.update(
+            {repetition,  time,
+            status_form, obs},
+            {where:{id:id}}
+           );
+        // RETORNA O ITEM CADASTRADO
+       return res.json(exerciseForm);
+ 
+    },
+    
+    async delete (req,res){
         const {id} = req.params;
        
        const exerciseForm = await ExerciseForm.findByPk(id);
        
        if(!exerciseForm)
-         return res.status(400).json({error:'Item inexistente !'});
+            return res.status(400).json({error:'Item inexistente !'});
  
          ExerciseForm.destroy({where:{id:id}});   
         return res.json(null);   

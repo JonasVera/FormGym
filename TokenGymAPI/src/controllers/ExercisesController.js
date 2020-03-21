@@ -5,7 +5,12 @@ module.exports = {
     async index(req,res){
       
         const groupMuscle = await GroupMuscle.findAll({
-           include:{association:'exercises'}
+            attributes:['id','name','category'],
+            include:
+            {
+            association:'exercises',
+            attributes:['id','name','category']
+            }
         });
         return res.json(groupMuscle);
     },
@@ -20,7 +25,7 @@ module.exports = {
        
         // VERIFICA A INEXISTENCIA DE UM EXERCICIO
         if(!group_muscle){
-            return res.status(400).json({error:'Grupo de exercicio não existe'});
+            return res.status(400).json({error:'Grupo muscular não existe'});
         }
         
         const exercise = await Exercise.create({
@@ -28,6 +33,25 @@ module.exports = {
             category,
             id_group_muscle
          });
+        
+        return res.json(exercise);
+    },
+    async update(req,res){
+        const  {id_exercise}  = req.params;
+        const  {name,category}  = req.body;
+        
+        let exercise = await Exercise.findByPk(id_exercise);
+       
+        // VERIFICA A INEXISTENCIA DE UM EXERCICIO
+        if(!exercise){
+            return res.status(400).json({error:'Exercicio não exite'});
+        }
+        
+            exercise = await Exercise.update(
+            {name,
+            category},
+            {where:{id:id_exercise}}
+         );
         
         return res.json(exercise);
     },
