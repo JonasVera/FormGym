@@ -14,7 +14,7 @@ class ExerciseForm extends Model{
 
     static associate(models){
         this.belongsTo(models.Exercise, {foreignKey: 'id_exercise', as:'allexercises'});
-          
+        this.hasMany(models.FormWorkout, {foreignKey: 'id_exerciseForm', as:'allexercisesForm'});      
     }
 }
 module.exports = ExerciseForm;

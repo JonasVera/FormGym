@@ -38,8 +38,7 @@ module.exports = {
         const exercise = await Exercise.findByPk(id_exercise);
         if(!exercise)
             return res.status(400).json({error:'Exercicio não existe'});
-          
-       
+           
         Exercise.destroy({where:{id:id_exercise}});  
         return res.json(null);  
     }

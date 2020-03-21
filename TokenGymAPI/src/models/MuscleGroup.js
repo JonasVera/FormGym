@@ -11,6 +11,6 @@ class MuscleGroup extends Model{
     }
     static associate(models){
         this.hasMany(models.Exercise, {foreignKey: 'id_group_muscle', as:'exercises'});
-    }
+    } 
 }
 module.exports = MuscleGroup;

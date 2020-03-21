@@ -49,7 +49,7 @@ module.exports = {
         const exerciseForm = await ExerciseForm.create({
             repetition,  time,
             status_form, obs,
-           id_exercise
+            id_exercise
         
      });
         // RETORNA O ITEM CADASTRADO
