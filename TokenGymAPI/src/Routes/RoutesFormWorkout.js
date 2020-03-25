@@ -5,10 +5,10 @@ const FormWorkout = require('../controllers/FormWorkoutController');
 const routesFormWorkout = express.Router();
 
  
- routesFormWorkout.post('/exerciseForm/formWorkout/:id_exerciseForm', FormWorkout.store);
- routesFormWorkout.get('/formWorkout', FormWorkout.index);
- //routesGroroutesFormWorkoutupMuscle.delete('/musclegroup/:id_muscle_group', MuscleGroupController.delete);
-
+ routesFormWorkout.post('/exerciseForm/:id_exerciseForm/formWorkout/', FormWorkout.store);
+ routesFormWorkout.get('/exerciseForm/formWorkout', FormWorkout.index);
+ routesFormWorkout.delete('/exerciseForm/:id/formWorkout',FormWorkout.delete);
+ routesFormWorkout.put('/exerciseForm/:id/formWorkout',FormWorkout.update);
 // ROUTES OF EXERCISES    
  
 module.exports = routesFormWorkout;

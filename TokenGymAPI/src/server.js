@@ -3,6 +3,7 @@ const routesGroupMuscles = require('./Routes/RoutesGroupMuscle');
 const routesExercises = require('./Routes/RoutesExercises');
 const routesExercisesForm = require('./Routes/RoutesExercisesForm');
 const routesFormWorkout = require('./Routes/RoutesFormWorkout');
+const routesUser = require('./Routes/RoutesUsers');
 require('./database');
 const app = express();
 
@@ -12,5 +13,6 @@ app.use(routesGroupMuscles);
 app.use(routesExercises);
 app.use(routesExercisesForm);
 app.use(routesFormWorkout);
+app.use(routesUser);
 
 app.listen(3030);

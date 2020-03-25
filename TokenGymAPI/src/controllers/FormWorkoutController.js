@@ -20,10 +20,8 @@ module.exports = {
                 
             }
             
-                 
              ]
        });
-        console.log("Exercicio: "+exerciseForm);
         
         return res.json(exerciseForm);    
     },
@@ -35,7 +33,7 @@ module.exports = {
         const exerciseForm = FormWorkout.findByPk(id_exerciseForm);
 
         if(!exerciseForm)
-            return res.status(400).json({error:'Exercicio não existe'});
+            return res.status(400).json({error:'Este item não existe'});
 
         const formWorkout = await FormWorkout.create({
             day,
@@ -43,6 +41,27 @@ module.exports = {
             status_item,
             id_exerciseForm
         });
+       
+        return res.json(formWorkout);
+    
+    },
+    async update(req,res){
+      
+        const  {id} = req.params;
+        const  {day,obs,status_item}  = req.body;
+         
+        const exerciseForm = FormWorkout.findByPk(id_exerciseForm);
+
+        if(!exerciseForm)
+            return res.status(400).json({error:'Este item não existe'});
+
+        const formWorkout = await FormWorkout.update(
+            {day,
+            obs,
+            status_item},
+            {where:{id:id}}
+
+        );
        
         return res.json(formWorkout);
     
