@@ -11,8 +11,6 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import BarMenu from './BarMenu';
-import { green } from '@material-ui/core/colors';
-import Radio from '@material-ui/core/Radio';
 
 const useStyles = makeStyles({
     root: {
@@ -43,7 +41,7 @@ const useStyles = makeStyles({
   
 export default function Login() {
     const classes = useStyles();
-    const bull = <span className={classes.bullet}>•</span>;
+   
   return (
        
     <React.Fragment>

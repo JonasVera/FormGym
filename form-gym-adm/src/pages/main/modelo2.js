@@ -7,25 +7,20 @@ import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import FitnessCenter from '@material-ui/icons/FitnessCenter';
 import Person from '@material-ui/icons/PersonRounded';
-import MenuBook from '@material-ui/icons/MenuBook'; 
 import Assignment from '@material-ui/icons/Assignment';
 import SportsMmaRounded from '@material-ui/icons/SportsMmaRounded';
 import DirectionsRun from '@material-ui/icons/DirectionsRun';
- 
 import MenuIcon from '@material-ui/icons/DirectionsRun';
 import Router from '../../Routes/router';
 import {Link} from 'react-router-dom';
-import Button from '@material-ui/core/Button';
 import {HashRouter} from 'react-router-dom';
 
 const drawerWidth = 240;

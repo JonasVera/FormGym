@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter,Switch,Route} from 'react-router-dom';
+import {Switch,Route} from 'react-router-dom';
 
 import formCadExercicio from '../pages/formCadastroExercicio/index';
 import ContaUser from '../pages/ContaUser';

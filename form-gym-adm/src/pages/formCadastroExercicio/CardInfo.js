@@ -5,41 +5,23 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import './style.css';
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 170,
-    maxHeight:150,
-    marginBottom:10,
-    marginTop:10
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 10,
-  },
  
-});
-
-export default function SimpleCard() {
-  const classes = useStyles();
-   
-
+export default function CardInfor({name,category,groupMuscle}) {
+  
   return (
-    <Card className={classes.root}>
+    <Card variant="outlined" className='cardInfor'>
       <CardContent>
          
         <Typography variant="h6" component="h6">
-          Exercicio
+          {name}
         </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          Categoria
+        <Typography   color="textSecondary">
+          {category}
         </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          Musculo
+        <Typography  color="textSecondary">
+          {groupMuscle}
         </Typography>
         
       </CardContent>

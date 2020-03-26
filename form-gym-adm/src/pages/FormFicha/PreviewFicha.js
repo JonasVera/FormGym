@@ -6,15 +6,13 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+
 import ListItemText from '@material-ui/core/ListItemText';
-import StarIcon from '@material-ui/icons/Star';
+
 const useStyles = makeStyles({
   root: {
     minWidth: 600,
@@ -49,17 +47,9 @@ const useStyles = makeStyles({
 });
 
 export default function PreViewFicha() {
-    const [checked, setChecked] = React.useState(true);
-
-    const handleChange = event => {
-      setChecked(event.target.checked);
-    };
-  
+    
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
-  const diasSeman = ['Segunda-Feira','Terça-Feira','Quarta-Feira','Quinta-Feira','Sexta-Feira','Sabádo']  
-  const musculos = ['Peito','Biceps','Coxa','Panturrilha','AnteBraço','Costa'];  
-  return (
+    return (
     <Card className={classes.root} variant="outlined">
       <CardContent>
           <Typography>Preview da Ficha</Typography>

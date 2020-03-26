@@ -1,8 +1,6 @@
 import React from 'react';
-import clsx from 'clsx';
-import Toolbar from '@material-ui/core/Toolbar';
+
 import { makeStyles } from '@material-ui/core/styles';
-import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
@@ -12,8 +10,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
-import AppBar from '@material-ui/core/AppBar';
- import { styled } from '@material-ui/core/styles';
+ 
 const useStyles = makeStyles(theme => ({
   root: {
     width: '95%',
@@ -48,13 +45,6 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(0.5, 0.5, 0.5),
   },
 }));
-const AppBarStyle = styled(AppBar)({
-  background: 'linear-gradient(45deg, #483D8B 30%, #836FFF 90%)',
-  border: 0,
-  color: 'white',
-  height: 60,
-  padding: '0 30px',
-});
 
 export default function ContaUser() {
   const classes = useStyles();

@@ -8,8 +8,6 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Cancel';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { styled } from '@material-ui/core/styles';
-import { borders } from '@material-ui/system';
 const useStyles = makeStyles({
   root: {
     maxWidth:180,
