@@ -6,6 +6,8 @@ module.exports = {
         const groupMuscle = await GroupMuscle.findAll(
             {attributes:['id','name','category']}
         );
+        
+        
         return res.json(groupMuscle);
     },
     // ADD A NEW  GROUP OF MUSCLE

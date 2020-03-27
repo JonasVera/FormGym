@@ -8,26 +8,31 @@ import Typography from '@material-ui/core/Typography';
 import './style.css';
 
  
-export default function CardInfor({name,category,groupMuscle}) {
+export default function CardInfor({name,category,musculo,categoryExercicio,onDelete,onEdit }) {
   
   return (
     <Card variant="outlined" className='cardInfor'>
       <CardContent>
          
         <Typography variant="h6" component="h6">
-          {name}
-        </Typography>
-        <Typography   color="textSecondary">
-          {category}
+         Exercicio: {name}
         </Typography>
         <Typography  color="textSecondary">
-          {groupMuscle}
+          Musculo: {musculo}
+        </Typography>
+        <Typography   color="textSecondary">
+          Categoria: {category}
+        </Typography>
+        
+
+        <Typography  color="textSecondary">
+         Sub Cartegoria: {categoryExercicio}
         </Typography>
         
       </CardContent>
       <CardActions>
-         <Button color="primary" size="small">Editar</Button>
-         <Button color="secondary"  size="small">Excluir</Button>
+         <Button color="primary" onClick={onEdit} size="small">Editar</Button>
+         <Button color="secondary" onClick={onDelete}  size="small">Excluir</Button>
       </CardActions>
     </Card>
   );

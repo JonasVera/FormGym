@@ -9,7 +9,8 @@ const useStyles = makeStyles({
   card:{
     maxWidth: '70%',
     marginTop:10,
-    marginBottom:10
+    marginBottom:10,
+  
   },
 
 });

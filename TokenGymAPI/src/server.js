@@ -7,13 +7,13 @@ const routesUser = require('./Routes/RoutesUsers');
 const cors = require('cors');
 require('./database');
 const app = express();
-
-app.use(cors);
+app.use(cors());
 app.use(express.json());
+
 app.use(routesGroupMuscles);
 app.use(routesExercises);
 app.use(routesExercisesForm);
 app.use(routesFormWorkout);
 app.use(routesUser);
 
-app.listen(3030);
+app.listen(3232);
