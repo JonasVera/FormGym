@@ -16,6 +16,7 @@ export default function CadastroExercicios (){
           const [exercises,setExercises] = useState([]);
           const [name,setName] = useState('');
           const [musculo,setMusculo] = useState('');
+          const [musculoID,setMusculoID] = useState('');
           const [category,setCategory] = useState('');
           const [id,setId] = useState('');
           const [status,setStatus] = useState('');
@@ -48,10 +49,10 @@ export default function CadastroExercicios (){
           e.preventDefault();
          
           if(status === 'Editar'){
-               //await api.put('musclegroup/'+id+'/exercise',{
-              //name,category 
+               await api.put('musclegroup/'+id+'/exercise',{
+              name,category,musculoID 
 
-            // });
+             });
              console.log('dados: ',name,category,id);
           }else{
              const resp = await api.post('musclegroup/'+id+'/exercise',{
@@ -64,15 +65,16 @@ export default function CadastroExercicios (){
         
         }   
           
-        function  loadCamposEdit(name,categoria,id,musculo){
+        function  loadCamposEdit(name,categoria,id_exercise,musculo,id_muscle){
            
             setName(name);
             setCategory(categoria);
-            setId(id);
+            setId(id_exercise);
             setMusculo(musculo);
+            setMusculoID(id_muscle);
             setStatus('Editar');
            
-           console.log(name,musculo,category,id);
+           console.log("NOME:",name,'id: ',id,"MUSC:",musculo,"cat",category,"Mus_id:",id_muscle);
         }  
 
         
@@ -98,7 +100,7 @@ export default function CadastroExercicios (){
       <CardContent>
          
         <Typography  variant="h6" component="h6">
-          + Exercicio
+         Adicionar Exercicio
         </Typography>
           
          <Grid container
@@ -169,22 +171,24 @@ export default function CadastroExercicios (){
          spacing={3}
         direction="row"
         alignItems="center">
-        
-    {exercises.map(exercise =>(    
+          
+     {exercises.map(exercise =>(
+           
           exercise.exercises.map(exer =>(
-         <CardInfo key={exer.id} 
-       name={exer.name}
-       category={exer.category}
+     <Grid item>
+     <CardInfo key={exer.id} 
+       name={exer.name}// nome do exercicio
+       category={exer.category} // categoria
        groupMuscle={exercise.category} 
        musculo={exercise.name}
        categoryExercicio={exercise.category}
        onDelete={()=>{ handleDelete(exer.id)}}
-       onEdit={()=>{loadCamposEdit(exer.name,exercise.category,exer.id,exer.category)}}
+       onEdit={()=>{loadCamposEdit(exer.name,exercise.category,exer.id,exercise.name,exercise.id)}}
        />
-              
+      </Grid>         
       )) 
   ))}
-
+   
   </Grid>    
         
 </>

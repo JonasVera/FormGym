@@ -5,6 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 import './style.css';
 
  
@@ -17,14 +18,14 @@ export default function CardInfor({name,category,musculo,categoryExercicio,onDel
         <Typography variant="h6" component="h6">
          Exercicio: {name}
         </Typography>
+        <Divider/>
         <Typography  color="textSecondary">
           Musculo: {musculo}
         </Typography>
         <Typography   color="textSecondary">
           Categoria: {category}
         </Typography>
-        
-
+         
         <Typography  color="textSecondary">
          Sub Cartegoria: {categoryExercicio}
         </Typography>
