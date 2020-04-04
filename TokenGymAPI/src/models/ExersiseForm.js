@@ -5,7 +5,7 @@ class ExerciseForm extends Model{
         super.init({
             repetition : DataTypes.INTEGER,
             time:DataTypes.INTEGER,
-            obs:DataTypes.STRING,
+            day:DataTypes.STRING,
             status_form:DataTypes.STRING
         },{
             sequelize
@@ -14,7 +14,7 @@ class ExerciseForm extends Model{
 
     static associate(models){
         this.belongsTo(models.Exercise, {foreignKey: 'id_exercise', as:'allexercises'});
-        this.hasMany(models.FormWorkout, {foreignKey: 'id_exerciseForm', as:'allexercisesForm'});      
+        this.belongsTo(models.FormWorkout, {foreignKey: 'id_formidWorkout', as:'FormGym'});     
     }
 }
 module.exports = ExerciseForm;

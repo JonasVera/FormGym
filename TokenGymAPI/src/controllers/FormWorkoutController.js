@@ -2,44 +2,17 @@ const FormWorkout = require('../models/FormWorkout');
 const ExerciseForm = require('../models/ExersiseForm');
  
 module.exports = {
-    // LIST ALL GROUPS OF MUSCLES
-   
-    // ADD A NEW  GROUP OF MUSCLE
+    
     async index(req,res){
-        const exerciseForm = await ExerciseForm.findAll({
-           
-            attributes:['repetition','time','obs','status_form'],
-            include: 
-             [
-                {association:'allexercisesForm',
-                 attributes:['day','obs','status_item'],
-                
-            },
-                {association:'allexercises',
-                attributes:['name'],
-                
-            }
-            
-             ]
-       });
+        const formWorkout = await FormWorkout.findAll( );
         
-        return res.json(exerciseForm);    
+        return res.json(formWorkout);    
     },
     async store(req,res){
-      
-        const  {id_exerciseForm} = req.params;
-        const  {day,obs,status_item}  = req.body;
-         
-        const exerciseForm = FormWorkout.findByPk(id_exerciseForm);
-
-        if(!exerciseForm)
-            return res.status(400).json({error:'Este item não existe'});
-
+        const  {name}  = req.body;
+ 
         const formWorkout = await FormWorkout.create({
-            day,
-            obs,
-            status_item,
-            id_exerciseForm
+            name
         });
        
         return res.json(formWorkout);
@@ -48,17 +21,15 @@ module.exports = {
     async update(req,res){
       
         const  {id} = req.params;
-        const  {day,obs,status_item}  = req.body;
-         
-        const exerciseForm = FormWorkout.findByPk(id_exerciseForm);
+        const  {name,obs}  = req.body;
 
-        if(!exerciseForm)
+        let formWorkout = await FormWorkout.findByPk(id);
+
+        if(!formWorkout)
             return res.status(400).json({error:'Este item não existe'});
 
-        const formWorkout = await FormWorkout.update(
-            {day,
-            obs,
-            status_item},
+          formWorkout = await FormWorkout.update(
+            {name,obs},
             {where:{id:id}}
 
         );
@@ -68,11 +39,10 @@ module.exports = {
     },
     async delete(req,res){
         const {id} = req.params;
-       
-        const formWorkout = await FormWorkout.findByPk(id);
-       
+        let formWorkout = await FormWorkout.findByPk(id);
+
         if(!formWorkout)
-            return res.status(400).json({error:'Item inexistente !'});
+            return res.status(400).json({error:'Este item não existe'});
  
          FormWorkout.destroy({where:{id:id}});   
          return res.json(null);    

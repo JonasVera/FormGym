@@ -9,32 +9,26 @@ module.exports = {
         autoIncrement:true,
         allowNull:false
       },
-      id_exerciseForm:{
-        type:Sequelize.INTEGER,
-        allowNull:false,
-        references:{model:'ExerciseForms', key:'id'},
-        onUpdate:'CASCADE',
-        onDelete:'CASCADE',
-      },
-      day:{ // REPETICAO
+      name:{ // VEZES (REPETITION X TIME = 3X12 )
         type:Sequelize.STRING,
-        allowNull:false,
+        allowNull:true,
+        
       },
       obs:{ // VEZES (REPETITION X TIME = 3X12 )
         type:Sequelize.STRING,
-        allowNull:false,
+        allowNull:true,
         
       }, 
       status_item:{  // ATIVO / INATIVO
         type:Sequelize.STRING,
-        allowNull:false,
+        allowNull:true,
         
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt  : {
+      updatedAt: {
       allowNull: false,
       type: Sequelize.DATE
       }

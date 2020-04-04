@@ -9,6 +9,14 @@ module.exports = {
         autoIncrement:true,
         allowNull:false
       },
+      
+      id_formWorkout:{
+        type:Sequelize.INTEGER,
+        allowNull:false,
+        references:{model:'FormWorkouts', key:'id'},
+        onUpdate:'CASCADE',
+        onDelete:'CASCADE',
+      },
       id_exercise:{
         type:Sequelize.INTEGER,
         allowNull:false,
@@ -17,24 +25,30 @@ module.exports = {
         onDelete:'CASCADE',
         
       },
+      
       repetition:{ // REPETICAO
         type:Sequelize.INTEGER,
-        allowNull:false,
+        allowNull:true,
       },
       time:{ // VEZES (REPETITION X TIME = 3X12 )
         type:Sequelize.INTEGER,
-        allowNull:false,
+        allowNull:true,
         
       },
+      day:{ 
+        type:Sequelize.STRING,
+        allowNull:false,
+      },
+       
       obs:{  
         type:Sequelize.TEXT,
-        allowNull:false,
+        allowNull:true,
         
       },
       status_form:{  // ATIVO / INATIVO
         type:Sequelize.STRING,
-        allowNull:false,
-        
+        allowNull:true,
+  
       },
       createdAt: {
         allowNull: false,
@@ -48,8 +62,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    
-    
       return queryInterface.dropTable('ExerciseForms');
   
   }

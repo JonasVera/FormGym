@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
  
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -6,7 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import PreviewFicha from './PreviewFicha';
 import { makeStyles } from '@material-ui/core/styles';
-
+import CardFicha from './CardFichas';
+import api from '../../services/api';
 import CardDay from './CardDAy';
  // Escolher exercicio | dia | 3 x 12 | 
 const useStyles = makeStyles({
@@ -44,12 +45,28 @@ const useStyles = makeStyles({
 });
 
 export default function FormExercicio() {
+  const [fichas,setFichas] = useState(['']);
+  async function loadFichas(idMusculo){
+    
+    const resp = await api.get(`exerciseForm/formWorkout`);
+     setFichas(resp.data);      
+     
+  } 
+  async function deleteFicha(id){
+    const resp = await api.delete(`exerciseForm/${id}/formWorkout`);
+    console.log(resp);
+    loadFichas();
+   } 
+
+  useEffect(()=>{
+    loadFichas();
+  },[])
   const classes = useStyles();
    
   return (
       <> 
-       <CardDay/>
-     
+    <CardDay/>
+    
     <Card >
       <CardContent>
          
@@ -57,15 +74,22 @@ export default function FormExercicio() {
          Ficha de Treino
         </Typography>
          
-         <Grid container
-         spacing={2}
-            direction="row"
-            justify="flex-start"
-            alignItems="center">
-        <Grid item >
-        <PreviewFicha />  
-     </Grid>
-     
+      
+          <Grid container item xs={12} spacing={4}>
+
+           
+          {fichas.map(value => {
+                  return (
+                    <CardFicha key={value.id}
+                     name={value.name} 
+                     data={value.createdAt} 
+                     atualizacao={value.updatedAt}
+                     onDelete={()=>{deleteFicha(value.id)}}
+                     />
+                 );
+              })}
+ 
+      
          
         </Grid>    
     

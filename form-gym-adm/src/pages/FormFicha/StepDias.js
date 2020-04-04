@@ -44,7 +44,7 @@ function getStepContent(step) {
   }
 }
 
-export default function StepDias() {
+export default function StepDias({acao}) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -60,6 +60,7 @@ export default function StepDias() {
 
   const handleNext = () => {
     let newSkipped = skipped;
+   
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
@@ -148,6 +149,7 @@ export default function StepDias() {
                 color="primary"
                 variant="outlined"
                 onClick={handleNext}
+                onClickCapture={acao} 
                 className={classes.button}
                 endIcon={<NavigateNext/>}
               >

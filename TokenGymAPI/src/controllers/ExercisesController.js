@@ -2,6 +2,15 @@ const Exercise = require('../models/Exercise');
 const GroupMuscle = require('../models/MuscleGroup');
 module.exports = {
     // LIST ALL GROUPS + WHIT EXERCISES ! /=> LISTA TODOS OS GRUPOS COM OS EXERCICIOS ASSOCIADOS
+    async getExercises(req,res){
+        const  {id_group_muscle}  = req.params;
+        const exercise = await Exercise.findAll({
+            attributes:['id','name','category'],
+            where:{id_group_muscle:id_group_muscle}
+        });
+            
+        return res.json(exercise);
+    },
     async index(req,res){
       
         const groupMuscle = await GroupMuscle.findAll({

@@ -4,56 +4,56 @@ const ExerciseForm = require('../models/ExersiseForm');
 module.exports = {
    
     async index(req,res){
-       
-      const exercise = await Exercise.findAll({
-          attributes:['id','name','category'],
+      const {id} = req.params;  
+      const exercise = await Exercise.findAll(
+         {
+
+          attributes:['id','name'],
           include:[
               {association: 'MuscleGroups',attributes:['id','name','category']},
-              {association: 'exerciseForms',attributes:['id','repetition','time','obs','status_form']}// EXERCICIO
-               // formExercicio
-          ]
+              {association: 'exerciseForms',attributes:['id_formWorkout','id','repetition','time','day'],
+
+              where:{id_formWorkout:id} // FILTRA/ RETORNA OS ITENS DE UMA FICHA
+            
+              }
+                
+         ]
       });
             return res.json(exercise);
      },
  
     // ADD A NEW EXERCISE FORM / adiciona um novo exercicio ao item de ficha 
     async store(req,res){
-        const  {id_exercise} = req.params;
+       // um item é obrigatoriamente adicionado a uma ficha 
+       const  {id_exercise} = req.params;
       
-        const {repetition,time,obs,status_form} = req.body;
-        
-       const exercise = await Exercise.findByPk(id_exercise);
-        
-        // verifica a inexistencia de um exercicio antes de inserir no item de ficha
-        if(!exercise) 
-           return res.status(400).json({error:'Exercicio já existe'});
-         
-           // CRIA O ITEM DA FICHA
+      const {id_formWorkout,day,repetition,time} = req.body;
+      const exercise = await Exercise.findByPk(id_exercise);
+       
+      
+           // CRIA O ITEM DA FICHA E VINCULA A FICHA
         const exerciseForm = await ExerciseForm.create({
-            repetition,  time,
-            status_form, obs,
-            id_exercise
-        
+           id_formWorkout, id_exercise ,repetition,time,day,
+            
      });
         // RETORNA O ITEM CADASTRADO
        return res.json(exerciseForm);
  
     }, 
     async update(req,res){
-        const  {id} = req.params;
+      const  {id} = req.params;
       
-        const {repetition,time,obs,status_form} = req.body;
+      const {id_formWorkout,day,repetition,time} = req.body;
         
         let exerciseForm = await ExerciseForm.findByPk(id);
         
         // verifica a inexistencia de um exercicio antes de inserir no item de ficha
-        if(!exerciseForm) 
-           return res.status(400).json({error:'Item inexistente'});
+        //if(!exerciseForm) 
+        //   return res.status(400).json({error:'Item inexistente'});
          
            // CRIA O ITEM DA FICHA
           exerciseForm = await ExerciseForm.update(
-            {repetition,  time,
-            status_form, obs},
+            id_formWorkout, id ,repetition,time,day,
             {where:{id:id}}
            );
         // RETORNA O ITEM CADASTRADO

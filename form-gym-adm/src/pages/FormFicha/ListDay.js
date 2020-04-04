@@ -6,7 +6,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 
-
+ 
 const useStyles = makeStyles(theme => ({
   root: {
     width: '80%',
@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ListDay() {
+export default function ListDay({data}) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState([1]);
 
@@ -34,12 +34,12 @@ export default function ListDay() {
 
   return (
     <List dense className={classes.root}>
-      {[0, 1, 2, 3].map(value => {
-        const labelId = `checkbox-list-secondary-label-${value}`;
+      {data.map(value => {
+        const labelId = `checkbox-list-secondary-label-${value.name}`;
         return (
           <ListItem key={value} button>
              
-            <ListItemText id={labelId} primary={`Supino reto`} />
+            <ListItemText id={labelId} primary={`${value.name}`} />
             <ListItemSecondaryAction>
               <Checkbox
                 edge="star"

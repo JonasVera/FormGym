@@ -42,11 +42,10 @@ export default function Login() {
     const classes = useStyles();
    
   return (
-     
-
-    <React.Fragment>
+      
+    <>
     
-                <BarMenu/>
+         <BarMenu/>
        
       <CssBaseline />
       <Container maxWidth="sm">
@@ -90,7 +89,7 @@ export default function Login() {
       </CardActions>
     </Card>
       </Container>
-    </React.Fragment>
+    </>
      
   );
 }

@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import CardInfo from './CardInfo';
 import api from '../../services/api';
+import Alert from '@material-ui/lab/Alert';
 import './style.css';
 export default function CadastroExercicios (){
   
@@ -20,10 +21,7 @@ export default function CadastroExercicios (){
           const [category,setCategory] = useState('');
           const [id,setId] = useState('');
           const [status,setStatus] = useState('');
-             // GET =>musclegroup 
-
-            //POST => api.post(`musclegroup/${this.state.id}/exercise`);
-          
+            
         function newExercise(){
           setStatus('New');
           setName('');
@@ -35,10 +33,10 @@ export default function CadastroExercicios (){
 
     
          async function loadCardsExercises(){
-           const resp = await api.get('musclegroup/exercise');
-           setExercises(resp.data);
-            
+           const resp = await api.get('musclegroup/exercise')
            
+           setExercises(resp.data);
+             
          }   
          async function loadExercises(){
           const resp = await api.get('musclegroup');
@@ -80,21 +78,27 @@ export default function CadastroExercicios (){
         
         async function handleDelete(id_exercise){
          
-          await api.delete(`musclegroup/${id_exercise}/exercise`);
+         
+          try{
+            await api.delete(`musclegroup/${id_exercise}/exercise`)
+            .then(()=>setStatus('Deletado'));
+
+          }catch(err){
+
+          }
           loadCardsExercises();
-        }
-         // form para add exercicios
-
-
+        } 
          useEffect (()=>{
-          loadExercises();
-          loadCardsExercises();
+            loadExercises();
+            loadCardsExercises();
 
        },[]);
 
 
     return(
    <>
+   
+       
       <Card className='cardForm' width={200} variant="outlined">
         <form onSubmit={handleExercises}>
       <CardContent>
@@ -111,7 +115,8 @@ export default function CadastroExercicios (){
             alignItems="center">
      <Grid item spacing={2}>
      
-     <TextField  
+     <TextField 
+            required 
             size="small"  
             label="Nome" 
             variant="outlined"
@@ -129,7 +134,7 @@ export default function CadastroExercicios (){
            select label="Musculo"
            variant="outlined"
            value={id}
-           
+           required 
            onChange={e=>setId(e.target.value)} > 
            <option  select >{status === 'Editar' ? musculo : 'Selecione' }</option>
             {musculos.map(musculo=>(
@@ -147,6 +152,7 @@ export default function CadastroExercicios (){
            select label="Categoria"
            variant="outlined" 
            value={category}
+           required  
            onChange={e=>setCategory(e.target.value)}
           >
             <option select>{status === 'Editar' ? category : 'Selecione' }</option>
@@ -188,7 +194,8 @@ export default function CadastroExercicios (){
       </Grid>         
       )) 
   ))}
-   
+  
+     
   </Grid>    
         
 </>
