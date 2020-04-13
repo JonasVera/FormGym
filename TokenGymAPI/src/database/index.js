@@ -1,14 +1,14 @@
-const Sequelize = require('sequelize');
-const dbConfig = require('../config/database');
+const Sequelize = require("sequelize");
+const dbConfig = require("../config/database");
 
-const MuscleGroup = require('../models/MuscleGroup');
-const Exercise = require('../models/Exercise');
-const ExerciseForm = require('../models/ExersiseForm');
-const FormWorkout = require('../models/FormWorkout');
-const User = require('../models/User');
+const MuscleGroup = require("../models/MuscleGroup");
+const Exercise = require("../models/Exercise");
+const ExerciseForm = require("../models/ExersiseForm");
+const FormWorkout = require("../models/FormWorkout");
+const User = require("../models/User");
 const connection = new Sequelize(dbConfig);
 
-// INICIALIZA A CONEXÃO DO BANCO DE DADOS 
+// INICIALIZA A CONEXÃO DO BANCO DE DADOS
 MuscleGroup.init(connection);
 Exercise.init(connection);
 ExerciseForm.init(connection);
@@ -20,5 +20,4 @@ Exercise.associate(connection.models);
 MuscleGroup.associate(connection.models);
 ExerciseForm.associate(connection.models);
 FormWorkout.associate(connection.models);
-
 module.exports = connection;

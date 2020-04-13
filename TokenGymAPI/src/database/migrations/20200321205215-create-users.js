@@ -1,57 +1,62 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Users', {
-      id:{
-        type:Sequelize.INTEGER,
-        primaryKey:true,
-        autoIncrement:true,
-        allowNull:false
+    return queryInterface.createTable("Users", {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
       },
-      name:{
-        type:Sequelize.STRING,
-        allowNull:false,
- 
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
-      email:{  
-        type:Sequelize.STRING,
-        allowNull:false,
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
-      password:{  
-        type:Sequelize.STRING,
-        allowNull:false,
-        
-      }, 
-      token:{  
-        type:Sequelize.STRING,
-        allowNull:true,
-        
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
-      status:{  
-        type:Sequelize.STRING,
-        allowNull:false,
-        
+      token: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
-      type_user:{  // USER_DEFAUL OR ADM
-        type:Sequelize.STRING,
-        allowNull:false,      
+      sex: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      height: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
+      weigth: {
+        type: Sequelize.FLOAT,
+        allowNull: true,
+      },
+      date_of_birth: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      type_user: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
-      updatedAt  : {
-      allowNull: false,
-      type: Sequelize.DATE
-      }
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
     });
-     
   },
 
   down: (queryInterface, Sequelize) => {
-  
-      return queryInterface.dropTable('Users');
-   
-  }
+    return queryInterface.dropTable("Users");
+  },
 };

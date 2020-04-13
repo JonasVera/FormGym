@@ -142,7 +142,7 @@ export default function CardDay() {
      setData(resp.data);
      console.log(resp.data);
     }
-    
+
     async function loadMuscle(){
     
       const resp = await api.get('musclegroup');
