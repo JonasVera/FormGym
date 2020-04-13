@@ -25,6 +25,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      status: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       sex: {
         type: Sequelize.STRING,
         allowNull: true,
@@ -38,12 +42,12 @@ module.exports = {
         allowNull: true,
       },
       date_of_birth: {
-        allowNull: false,
         type: Sequelize.DATE,
+        allowNull: true,
       },
       type_user: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,

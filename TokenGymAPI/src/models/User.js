@@ -8,6 +8,7 @@ class User extends Model {
         email: DataTypes.STRING,
         password: DataTypes.STRING,
         token: DataTypes.STRING,
+        status: DataTypes.STRING,
         sex: DataTypes.STRING,
         height: DataTypes.INTEGER,
         weigth: DataTypes.FLOAT,
