@@ -56,7 +56,7 @@ export default function ContaUser() {
   const [weigth, setWeigth] = useState();
   const [height, setHeight] = useState();
   const [category, setCategory] = useState();
-  const [probResp, setProbResp] = useState();
+  const [Respiratory_problem, setRespiratory_problem] = useState();
   const [password, setPassword] = useState();
   const [date_of_birth, setDate_of_birth] = useState();
   const id = localStorage.getItem("id_user");
@@ -351,9 +351,9 @@ export default function ContaUser() {
                     select
                     label="Problema respiratorio ?"
                     variant="outlined"
-                    value={probResp}
+                    value={Respiratory_problem}
                     onChange={(e) => {
-                      setProbResp(e.target.value);
+                      setRespiratory_problem(e.target.value);
                     }}
                   >
                     <option>Sim</option>

@@ -40,6 +40,7 @@ module.exports = {
       weigth,
       status,
       category,
+      Respiratory_problem,
       date_of_birth,
     } = req.body;
     user = await User.findByPk(id);
@@ -49,7 +50,17 @@ module.exports = {
     } else {
       date_of_birth = new Date(date_of_birth);
       user = await User.update(
-        { name, email, sex, height, weigth, status, category, date_of_birth },
+        {
+          name,
+          email,
+          sex,
+          height,
+          weigth,
+          status,
+          category,
+          Respiratory_problem,
+          date_of_birth,
+        },
         {
           where: { id: id },
         }

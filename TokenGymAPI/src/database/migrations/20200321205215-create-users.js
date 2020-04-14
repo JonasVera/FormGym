@@ -33,6 +33,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+
+      Respiratory_problem: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       sex: {
         type: Sequelize.STRING,
         allowNull: true,
