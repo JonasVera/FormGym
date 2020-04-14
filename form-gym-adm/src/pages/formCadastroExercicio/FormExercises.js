@@ -9,7 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import CardInfo from "./CardInfo";
 import api from "../../services/api";
-import Alert from "@material-ui/lab/Alert";
+import AlertMsg from "../Components/AlertMsg";
 import "./style.css";
 export default function CadastroExercicios() {
   const [musculos, setMusculos] = useState([]);
@@ -20,7 +20,11 @@ export default function CadastroExercicios() {
   const [category, setCategory] = useState("");
   const [id, setId] = useState("");
   const [status, setStatus] = useState("");
+  const [msg, setMsg] = useState();
+  const [action, setAction] = useState();
+  const [type, setType] = useState("warning");
   const userToken = localStorage.getItem("token");
+
   function newExercise() {
     setStatus("New");
     setName("");
@@ -37,23 +41,62 @@ export default function CadastroExercicios() {
     setExercises(resp.data);
   }
   async function loadExercises() {
-    const resp = await api.get("musclegroup");
+    const resp = await api.get("musclegroup", {
+      headers: { authorization: userToken },
+    });
     setMusculos(resp.data);
   }
   async function handleExercises(e) {
     e.preventDefault();
-
+    if (
+      !name ||
+      category === "selecione" ||
+      !musculoID ||
+      musculo === "selecione"
+    ) {
+      setMsg("Preencha todos os dados para salvar ! ");
+      setAction(true);
+    }
     if (status === "Editar") {
-      await api.put("musclegroup/" + id + "/exercise", {
-        name,
-        category,
-        musculoID,
-      });
+      try {
+        await api.put(
+          "musclegroup/" + id + "/exercise",
+          {
+            name,
+            category,
+            musculoID,
+          },
+          { headers: { authorization: userToken } }
+        );
+        setMsg("Dados Editados com sucesso !");
+        setType("success");
+      } catch (err) {
+        // setMsg("Erro ao editar", err);
+        //setType("error");
+        // setAction(true);
+      }
     } else {
-      const resp = await api.post("musclegroup/" + id + "/exercise", {
-        name,
-        category,
-      });
+      if (!name || category === "Selecione") {
+        return;
+      } else {
+        try {
+          const resp = await api.post(
+            "musclegroup/" + id + "/exercise",
+            {
+              name,
+              category,
+            },
+            { headers: { authorization: userToken } }
+          );
+          setMsg("Exercicio salvos com sucesso !");
+          setType("success");
+          setAction(true);
+        } catch (err) {
+          // setMsg("Erro ao salvar exercicio", err);
+          // setType("error");
+          //setAction(true);
+        }
+      }
     }
 
     loadCardsExercises();
@@ -70,9 +113,13 @@ export default function CadastroExercicios() {
 
   async function handleDelete(id_exercise) {
     try {
-      await api
-        .delete(`musclegroup/${id_exercise}/exercise`)
-        .then(() => setStatus("Deletado"));
+      await api.delete(`musclegroup/${id_exercise}/exercise`, {
+        headers: { authorization: userToken },
+      });
+
+      setMsg("Exercicio Excluido !");
+      setType("success");
+      setAction(true);
     } catch (err) {}
     loadCardsExercises();
   }
@@ -83,6 +130,7 @@ export default function CadastroExercicios() {
 
   return (
     <>
+      <AlertMsg action={action} type={type} msg={msg} />
       <Card className="cardForm" width={200} variant="outlined">
         <form onSubmit={handleExercises}>
           <CardContent>
