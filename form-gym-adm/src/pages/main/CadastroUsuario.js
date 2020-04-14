@@ -14,8 +14,8 @@ import api from "../../services/api";
 import BarMenu from "./BarMenu";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
+
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -39,6 +39,9 @@ const useStyles = makeStyles({
 
 export default function Login() {
   const classes = useStyles();
+
+  const history = useHistory();
+
   const [open, setOpen] = React.useState(false);
   const [msg, setMsg] = useState();
   const [msgType, setMsgType] = useState("warning");
@@ -61,15 +64,23 @@ export default function Login() {
       setMsg("Campos em branco não são permitidos");
       setOpen(true);
     } else {
-      await api.post("user", {
-        name,
-        email,
-        password,
-        type_user,
-      });
-      setMsg("Cadastro efetuado com sucesso !");
-      setMsgType("success");
-      setOpen(true);
+      try {
+        const resp = await api.post("user", {
+          name,
+          email,
+          password,
+          type_user,
+        });
+        console.log(resp.data);
+        setMsg("Cadastro efetuado com sucesso !");
+        setMsgType("success");
+        setOpen(true);
+        history.push("/");
+      } catch (err) {
+        setMsg("Erro ao cadastrar usuário tente novamente");
+        setMsgType("warning");
+        setOpen(true);
+      }
     }
   }
 
@@ -179,7 +190,7 @@ export default function Login() {
 
           <CardActions>
             <Typography color="textSecondary">
-              Não se esqueça de prencher informações adicionais na sua conta
+              Não esqueça de prencher informações adicionais na sua conta
             </Typography>
           </CardActions>
         </Card>

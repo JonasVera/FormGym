@@ -20,7 +20,7 @@ export default function CadastroExercicios() {
   const [category, setCategory] = useState("");
   const [id, setId] = useState("");
   const [status, setStatus] = useState("");
-
+  const userToken = localStorage.getItem("token");
   function newExercise() {
     setStatus("New");
     setName("");
@@ -30,7 +30,9 @@ export default function CadastroExercicios() {
   }
 
   async function loadCardsExercises() {
-    const resp = await api.get("musclegroup/exercise");
+    const resp = await api.get("musclegroup/exercise", {
+      headers: { authorization: userToken },
+    });
 
     setExercises(resp.data);
   }
