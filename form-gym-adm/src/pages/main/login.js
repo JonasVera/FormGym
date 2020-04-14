@@ -64,6 +64,8 @@ export default function Login() {
         });
         localStorage.setItem("token", resp.data.token);
         localStorage.setItem("user", resp.data.name);
+        localStorage.setItem("id_user", resp.data.id);
+        console.log("id", resp.data);
 
         setMsg("Login Efetuado com sucesso !");
         setMsgType("success");

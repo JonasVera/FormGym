@@ -11,8 +11,15 @@ module.exports = {
   },
   async store(req, res) {
     let { name, email, password, type_user } = req.body;
+    let status = "ativo";
     password = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, password, type_user });
+    const user = await User.create({
+      name,
+      email,
+      password,
+      status,
+      type_user,
+    });
 
     const token = jwt.sign({ id: user.id }, authConfig.secret, {
       expiresIn: 86400,
@@ -24,7 +31,17 @@ module.exports = {
 
   async register(req, res) {
     // FINALIZAR O CADASTRO DO USUARIO
-    let { id, sex, height, weigth, date_of_birth } = req.body;
+    let {
+      id,
+      name,
+      email,
+      sex,
+      height,
+      weigth,
+      status,
+      category,
+      date_of_birth,
+    } = req.body;
     user = await User.findByPk(id);
 
     if (!user) {
@@ -32,7 +49,7 @@ module.exports = {
     } else {
       date_of_birth = new Date(date_of_birth);
       user = await User.update(
-        { sex, height, weigth, date_of_birth },
+        { name, email, sex, height, weigth, status, category, date_of_birth },
         {
           where: { id: id },
         }

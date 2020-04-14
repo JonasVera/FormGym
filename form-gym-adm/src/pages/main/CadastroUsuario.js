@@ -71,7 +71,7 @@ export default function Login() {
           password,
           type_user,
         });
-        console.log(resp.data);
+
         setMsg("Cadastro efetuado com sucesso !");
         setMsgType("success");
         setOpen(true);
