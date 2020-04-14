@@ -1,5 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const authConfig = require("../config/auth.json");
 
 module.exports = {
   async index(req, res) {
@@ -11,6 +13,12 @@ module.exports = {
     let { name, email, password, type_user } = req.body;
     password = await bcrypt.hash(password, 10);
     const user = await User.create({ name, email, password, type_user });
+
+    const token = jwt.sign({ id: user.id }, authConfig.secret, {
+      expiresIn: 86400,
+    });
+    user.token = token;
+
     return res.json(user);
   },
 
@@ -31,5 +39,24 @@ module.exports = {
       );
       return res.json(user);
     }
+  },
+
+  async authenticate(req, res) {
+    let { email, password } = req.body;
+
+    const user = await User.findOne({ where: { email: email } });
+
+    if (!user)
+      return res.status(400).json({ error: "Usuário não encontrado !" });
+
+    if (!(await bcrypt.compare(password, user.password)))
+      return res.status(400).json({ error: "Senha incorreta ou invalida" });
+
+    const token = jwt.sign({ id: user.id }, authConfig.secret, {
+      expiresIn: 86400,
+    });
+
+    user.token = token;
+    return res.json(user);
   },
 };

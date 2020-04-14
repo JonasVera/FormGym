@@ -9,11 +9,10 @@ require("./database");
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+app.use(routesUser);
 app.use(routesGroupMuscles);
 app.use(routesExercises);
 app.use(routesExercisesForm);
 app.use(routesFormWorkout);
-app.use(routesUser);
 
 app.listen(3232);
