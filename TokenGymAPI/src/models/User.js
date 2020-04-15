@@ -22,8 +22,8 @@ class User extends Model {
       }
     );
   }
-  //static associate(models){
-  //    this.hasMany(models.Exercise, {foreignKey: 'id_group_muscle', as:'exercises'});
-  //}
+  static associate(models) {
+    this.hasMany(models.Goal, { foreignKey: "id_user", as: "goals" });
+  }
 }
 module.exports = User;
