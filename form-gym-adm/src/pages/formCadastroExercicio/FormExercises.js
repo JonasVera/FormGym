@@ -223,7 +223,7 @@ export default function CadastroExercicios() {
         </form>
       </Card>
 
-      <Grid container spacing={3} direction="row" alignItems="center">
+      <Grid container spacing={2} direction="row" alignItems="center">
         {exercises.map((exercise) =>
           exercise.exercises.map((exer) => (
             <Grid item>

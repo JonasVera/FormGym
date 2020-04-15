@@ -14,12 +14,12 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import Today from "@material-ui/icons/Today";
-
+import AddCircle from "@material-ui/icons/AddCircle";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { styled } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-
+import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
 import PreViewFicha from "./PreviewFicha";
 import api from "../../services/api";
@@ -35,10 +35,10 @@ const useStyles = makeStyles({
     marginBottom: 10,
   },
   cardFicha: {
-    marginTop: 12,
+    marginTop: 0,
     marginLeft: 20,
     minWidth: 400,
-    maxHeight: 700,
+    height: 300,
   },
   textField: {
     marginTop: 10,
@@ -48,7 +48,7 @@ const useStyles = makeStyles({
     width: 111,
   },
   PreViewFicha: {
-    marginTop: 10,
+    marginTop: 0,
     marginRight: 20,
   },
   listExercises: {
@@ -189,30 +189,28 @@ export default function CardDay() {
           </Toolbar>
         </AppBarStyle>
         <CardContent>
-          <h1>{avisos}</h1>
-
-          <div className={classes.pnCFicha}>
-            <TextField
-              className={classes.btnFicha}
-              size="small"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-              required
-              label="Nome da ficha"
-              variant="outlined"
-            />
-            <Button
-              variant="contained"
-              onClick={() => criarFicha(name)}
-              color="primary"
-            >
-              Criar Ficha{" "}
-            </Button>
-          </div>
-          <Grid container spacing={2} direction="row">
-            <Grid item spacing={2}>
+          <Grid container>
+            <Grid item>
+              <div className={classes.pnCFicha}>
+                <TextField
+                  className={classes.btnFicha}
+                  size="small"
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                  required
+                  label="Nome da ficha"
+                  variant="outlined"
+                />
+                <Button
+                  variant="outlined"
+                  onClick={() => criarFicha(name)}
+                  color="primary"
+                >
+                  Criar Ficha{" "}
+                </Button>
+              </div>
               <FormControl
                 size="small"
                 disable={habilitaCampos}
@@ -309,19 +307,21 @@ export default function CardDay() {
                       <option value="sex">Sex</option>
                       <option value="sab">Sab</option>
                     </TextField>
+
                     <Button
                       onClick={addExercicio}
-                      variant="contained"
+                      variant="outlined"
                       color="primary"
+                      className={classes.button}
+                      startIcon={<AddCircle />}
                     >
                       Adicionar na ficha
                     </Button>
                   </Grid>
                 </Grid>
               </FormControl>
-              <Divider />
             </Grid>
-            <Grid>
+            <Grid item>
               <Card className={classes.cardFicha} variant="outlined">
                 <AppBarStyle position="static">
                   <Toolbar>

@@ -1,10 +1,9 @@
 .cardForm {
-  max-width:600px;
-  margin:10px;
-  
-}
-.cardInfor{
+  max-width: 600px;
   margin: 10px;
-  padding:5px;
-  border-radius:0;
+}
+.cardInfor {
+  margin: 10px;
+  padding: 5px;
+  border-radius: 0;
 }
