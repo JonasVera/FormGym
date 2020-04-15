@@ -33,8 +33,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
-
-      Respiratory_problem: {
+      respiratory_problem: {
         type: Sequelize.STRING,
         allowNull: true,
       },

@@ -40,7 +40,7 @@ module.exports = {
       weigth,
       status,
       category,
-      Respiratory_problem,
+      respiratory_problem,
       date_of_birth,
     } = req.body;
     user = await User.findByPk(id);
@@ -49,6 +49,9 @@ module.exports = {
       return res.status(400).json({ error: "Usuário não existe !" });
     } else {
       date_of_birth = new Date(date_of_birth);
+
+      height = parseInt(height);
+      weigth = parseInt(weigth);
       user = await User.update(
         {
           name,
@@ -58,7 +61,7 @@ module.exports = {
           weigth,
           status,
           category,
-          Respiratory_problem,
+          respiratory_problem,
           date_of_birth,
         },
         {
@@ -68,7 +71,24 @@ module.exports = {
       return res.json(user);
     }
   },
+  async updatePassword(req, res) {
+    let { id, password } = req.body;
 
+    let user = await User.findByPk(id);
+    if (!user) return res.status(401).json({ error: "Usuario não existe !" });
+
+    password = await bcrypt.hash(password, 10);
+    console.log(password);
+    user = await User.update(
+      {
+        password,
+      },
+      {
+        where: { id: id },
+      }
+    );
+    return res.json(user);
+  },
   async authenticate(req, res) {
     let { email, password } = req.body;
 

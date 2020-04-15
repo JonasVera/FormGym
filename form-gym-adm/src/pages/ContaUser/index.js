@@ -11,6 +11,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 import api from "../../services/api";
+import AlertMsg from "../Components/AlertMsg";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "95%",
@@ -47,22 +48,28 @@ const useStyles = makeStyles((theme) => ({
 export default function ContaUser() {
   const classes = useStyles();
 
+  const [msg, setMsg] = useState();
+  const [type, setType] = useState("success");
+  const [action, setAction] = useState();
+
   const [dataCadastro, setDataCadastro] = useState();
   const [dataAtualizacao, setDataAtualizacao] = useState();
   const [name, setName] = useState();
   const [email, setEmail] = useState();
-  const [status, setStatus] = useState();
-  const [sex, setSex] = useState();
+  const [status, setStatus] = useState("Ativo");
+  const [sex, setSex] = useState("Masculino");
   const [weigth, setWeigth] = useState();
   const [height, setHeight] = useState();
-  const [category, setCategory] = useState();
-  const [Respiratory_problem, setRespiratory_problem] = useState();
+  const [category, setCategory] = useState("Iniciante");
+  const [respiratory_problem, setRespiratory_problem] = useState();
   const [password, setPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
+  const [passwordDef, setPasswordDef] = useState();
   const [date_of_birth, setDate_of_birth] = useState();
-  const id = localStorage.getItem("id_user");
+  const id = parseInt(localStorage.getItem("id_user"));
   const user = localStorage.getItem("user");
-  const [progresCampos, setProgresCampos] = useState(20);
-
+  const [progresCampos, setProgresCampos] = useState(100);
+  const token = localStorage.getItem("token");
   async function loadUser() {
     const resp = await api.get(`user/${id}`);
 
@@ -76,11 +83,60 @@ export default function ContaUser() {
 
     setDataCadastro(dateFormCR);
     setDataAtualizacao(dateFormUP);
+
+    setSex(resp.data.sex);
+    setStatus(resp.data.status);
+    setCategory(resp.data.category);
+    setRespiratory_problem(resp.data.respiratory_problem);
+    setHeight(resp.data.height);
+    setWeigth(resp.data.weigth);
+    let ts = resp.data.date_of_birth.split("T");
+
+    setDate_of_birth(ts[0]);
+  }
+  async function handleUpdatePassword(e) {
+    e.preventDefault();
+    console.log(password, confirmPassword);
+    try {
+      if (password !== confirmPassword) {
+        setType("warning");
+        setMsg("Senhas não conferen, digite a senha duas vezes ! ");
+        setAction(true);
+      }
+      if (!passwordDef || !confirmPassword || !password) {
+        setType("warning");
+        setMsg("Campos em branco !");
+        setAction(true);
+      } else {
+        await api.put("/user/updatepassword", {
+          id,
+          password,
+        });
+        setMsg("Senha atualizada com sucesso !");
+        setType("success");
+        setAction(true);
+      }
+    } catch (err) {
+      setMsg("Erro ao atualizar senha");
+      setAction(true);
+    }
+  }
+  function informacaoPerfil() {
+    if (!date_of_birth || date_of_birth === "")
+      setProgresCampos(progresCampos - 10);
+    if (!height || height === "") setProgresCampos(progresCampos - 10);
+    if (!weigth || weigth === "") setProgresCampos(progresCampos - 10);
+    if (!respiratory_problem === "") setProgresCampos(progresCampos - 10);
+    if (!sex || sex === "") setProgresCampos(progresCampos - 10);
+    if (!category || category === "") setProgresCampos(progresCampos - 10);
   }
 
-  async function register(e) {
+  async function handleUser(e) {
     e.preventDefault();
-    await api.put("user", {
+    let format = date_of_birth.split("-");
+    let concat = format[2] + "/" + format[1] + "/" + format[0];
+    setDate_of_birth(concat);
+    const resp = await api.put("user", {
       id,
       name,
       email,
@@ -89,18 +145,26 @@ export default function ContaUser() {
       weigth,
       status,
       category,
+      respiratory_problem,
       date_of_birth,
     });
+
+    setMsg("Dados Atualizados com sucesso !!");
+    setAction(true);
+    loadUser();
+    informacaoPerfil();
   }
 
   useEffect(() => {
     loadUser();
+    informacaoPerfil();
   }, []);
   return (
     <>
       <Grid container spacing={1}>
         <Grid item>
           <Card>
+            <AlertMsg action={action} msg={msg} type={type} />
             <div className={classes.root}>
               <div className={classes.section1}>
                 <Grid container alignItems="center">
@@ -120,7 +184,9 @@ export default function ContaUser() {
               <Divider variant="middle" />
               <div className={classes.section2}>
                 <Typography gutterBottom variant="body1">
-                  Ainda Falta algumas informações
+                  {progresCampos >= 90
+                    ? "Seu perfil está concluido !"
+                    : "Ainda Falta algumas informações"}
                 </Typography>
                 <LinearProgress
                   variant="determinate"
@@ -142,52 +208,61 @@ export default function ContaUser() {
               Redefinir Senha
             </Typography>
             <CardContent>
-              <TextField
-                size="small"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                className={classes.chip}
-                fullWidth={"100%"}
-                type="password"
-                id="outlined-basic"
-                label="Senha Atual"
-                variant="outlined"
-              />
-              <TextField
-                size="small"
-                className={classes.chip}
-                fullWidth={"100%"}
-                type="password"
-                id="outlined-basic"
-                label="Nova Senha"
-                variant="outlined"
-              />
-              <TextField
-                size="small"
-                className={classes.chip}
-                fullWidth={"100%"}
-                type="password"
-                id="outlined-basic"
-                label="Confirmar nova Senha"
-                variant="outlined"
-              />
-              <Button
-                size="small"
-                variant="contained"
-                fullWidth={"100%"}
-                color="primary"
-                className={classes.chip}
-              >
-                Redefinir senha
-              </Button>
+              <form onSubmit={handleUpdatePassword}>
+                <TextField
+                  size="small"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  className={classes.chip}
+                  fullWidth={"100%"}
+                  type="password"
+                  id="outlined-basic"
+                  label="Senha Atual"
+                  value={passwordDef}
+                  onChange={(e) => setPasswordDef(e.target.value)}
+                  variant="outlined"
+                />
+                <TextField
+                  size="small"
+                  className={classes.chip}
+                  fullWidth={"100%"}
+                  type="password"
+                  id="outlined-basic"
+                  label="Nova Senha"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  variant="outlined"
+                />
+                <TextField
+                  size="small"
+                  className={classes.chip}
+                  fullWidth={"100%"}
+                  type="password"
+                  id="outlined-basic"
+                  label="Confirmar nova Senha"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  variant="outlined"
+                />
+                <Button
+                  size="small"
+                  type="submit"
+                  variant="contained"
+                  fullWidth={"100%"}
+                  color="primary"
+                  className={classes.chip}
+                >
+                  Redefinir senha
+                </Button>
+              </form>
             </CardContent>
           </Card>
         </Grid>
 
         <Card className={classes.card}>
           <CardContent>
-            <form onSubmit={register}>
+            <form onSubmit={handleUser}>
               <Typography variant="h5" component="h2"></Typography>
               <Grid container>
                 <Grid item>
@@ -197,9 +272,7 @@ export default function ContaUser() {
                     id="outlined-basic"
                     label="Nome"
                     value={name}
-                    onChange={(e) => {
-                      setName(e.target.value);
-                    }}
+                    onChange={(e) => setName(e.target.value)}
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -215,9 +288,7 @@ export default function ContaUser() {
                     fullWidth="100%"
                     label="E-mail"
                     value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                    }}
+                    onChange={(e) => setEmail(e.target.value)}
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -233,9 +304,7 @@ export default function ContaUser() {
                     label="Status"
                     variant="outlined"
                     value={status}
-                    onChange={(e) => {
-                      setStatus(e.target.value);
-                    }}
+                    onChange={(e) => setStatus(e.target.value)}
                   >
                     <option>Ativo</option>
                     <option>Inativo</option>
@@ -251,6 +320,7 @@ export default function ContaUser() {
                     id="outlined-basic"
                     fullWidth="100%"
                     value={date_of_birth}
+                    onChange={(e) => setDate_of_birth(e.target.value)}
                     label="Data Nascimento"
                     variant="outlined"
                   />
@@ -262,14 +332,17 @@ export default function ContaUser() {
                     size="small"
                     select
                     label="Sexo"
-                    variant="outlined"
-                    onChange={(e) => {
-                      setSex(e.target.value);
+                    InputLabelProps={{
+                      shrink: true,
                     }}
+                    variant="outlined"
                     value={sex}
+                    onChange={(e) => setSex(e.target.value)}
                   >
-                    <option>Masculino</option>
-                    <option>Feminino</option>
+                    <option select value={"Masculino"}>
+                      Masculino
+                    </option>
+                    <option value={"Feminino"}>Feminino</option>
                   </TextField>
                 </Grid>
               </Grid>
@@ -331,15 +404,15 @@ export default function ContaUser() {
                       shrink: true,
                     }}
                     value={category}
-                    onChange={(e) => {
-                      setCategory(e.target.value);
-                    }}
+                    onChange={(e) => setCategory(e.target.value)}
                     variant="outlined"
                   >
-                    <option>Iniciante</option>
-                    <option>Intermediario</option>
-                    <option>Profissional</option>
-                    <option>Bodybuilder</option>
+                    <option select value={"Iniciante"}>
+                      Iniciante
+                    </option>
+                    <option value={"Intermediario"}>Intermediario</option>
+                    <option value={"Profissional"}>Profissional</option>
+                    <option value={"Bodybuilder"}>Bodybuilder</option>
                   </TextField>
                 </Grid>
 
@@ -351,18 +424,21 @@ export default function ContaUser() {
                     select
                     label="Problema respiratorio ?"
                     variant="outlined"
-                    value={Respiratory_problem}
-                    onChange={(e) => {
-                      setRespiratory_problem(e.target.value);
-                    }}
+                    value={respiratory_problem}
+                    onChange={(e) => setRespiratory_problem(e.target.value)}
                   >
-                    <option>Sim</option>
-                    <option>Não</option>
+                    <option value={"Sim"}>Sim</option>
+                    <option value={"Nao"}>Não</option>
                   </TextField>
                 </Grid>
               </Grid>
               <CardActions>
-                <Button variant="contained" size="small" color="primary">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  size="small"
+                  color="primary"
+                >
                   Salvar
                 </Button>
 

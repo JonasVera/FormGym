@@ -118,7 +118,6 @@ export default function Login() {
               <form
                 onSubmit={handleUser}
                 className={classes.root}
-                noValidate
                 autoComplete="off"
               >
                 <Grid item>
