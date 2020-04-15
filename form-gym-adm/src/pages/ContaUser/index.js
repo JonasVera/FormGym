@@ -90,9 +90,10 @@ export default function ContaUser() {
     setRespiratory_problem(resp.data.respiratory_problem);
     setHeight(resp.data.height);
     setWeigth(resp.data.weigth);
-    let ts = resp.data.date_of_birth.split("T");
-
-    setDate_of_birth(ts[0]);
+    if (resp.data.date_of_birth) {
+      let ts = resp.data.date_of_birth.split("T");
+      setDate_of_birth(ts[0]);
+    }
   }
   async function handleUpdatePassword(e) {
     e.preventDefault();

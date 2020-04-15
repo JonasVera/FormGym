@@ -22,4 +22,7 @@ Exercise.associate(connection.models);
 MuscleGroup.associate(connection.models);
 ExerciseForm.associate(connection.models);
 FormWorkout.associate(connection.models);
+User.associate(connection.models);
+Goal.associate(connection.models);
+
 module.exports = connection;
